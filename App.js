@@ -2,8 +2,11 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
-import Splashscreen from './src/screens/Splashscreen';
-import Homepage from './src/screens/Homescreen';
+import { Ionicons } from '@expo/vector-icons';
+
+import NewPartyscreen from './src/screens/NewPartyscreen';
+import Searchscreen from './src/screens/Searchscreen';
+import PartyListscreen from './src/screens/PartyListscreen';
 
 const App = () => {
   return (
@@ -25,20 +28,35 @@ const styles = StyleSheet.create({
 
 const TabNavigator = createBottomTabNavigator(
   {
-    Splash : {
-      screen: Splashscreen,
-      navigationOptions: {
-        header: null,
-        tabBarVisible: false,
-
-      }
+    PartyList : {
+      screen: PartyListscreen,
+      navigationOptions: () => ({
+        tabBarIcon: ({tintColor}) => (<Ionicons name="ios-list-box" size={32} color={tintColor} />)
+      }),
     },
-    Home : {
-      screen: Homepage,
+    NewParty : {
+      screen: NewPartyscreen,
+      navigationOptions: () => ({
+        tabBarIcon: ({tintColor}) => (<Ionicons name="md-add-circle-outline" size={32} color={tintColor} />)
+      }),
+    },
+    SearchParty: {
+      screen: Searchscreen,
+      navigationOptions: () => ({
+        tabBarIcon: ({tintColor}) => (<Ionicons name="md-search" size={32} color={tintColor} />)
+      }),
     }
   },
   {
-    initialRouteName: 'Home',
+    initialRouteName: 'PartyList',
+    tabBarOptions: { 
+      showLabel: false,
+      activeTintColor: '#695E50',
+      inactiveTintColor: '#FFAF4F',
+      style: {
+        backgroundColor: '#000000' 
+    },
+    },
   }
 );
 
