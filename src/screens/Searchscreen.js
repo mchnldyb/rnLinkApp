@@ -1,27 +1,41 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { Text, Image, StyleSheet, View } from 'react-native';
 import { SearchBar } from 'react-native-elements';
 
 
+class Searchscreen extends Component{
 
-const Searchscreen =  () => {
-    return (
+    state = {
+        search: '',
+    };
+    
+    updateSearch = search => {
+        this.setState({ search });
+    };
+
+    render(){
+
+        const { search } = this.state;
+
+        return (
         
-        <View style={styles.container}>
-            <SearchBar
-                lightTheme
-                round
-                placeholder="Search events..."
-                value = ""
-            />
-        </View>
-
-    )
+            <View style={styles.container}>
+                <SearchBar
+                    lightTheme
+                    round
+                    onChangeText={this.updateSearch}
+                    placeholder="Search events..."
+                    value = {search}
+                />
+            </View>
+    
+        )
+    }
 }
+
 
 const styles = StyleSheet.create({
     container: {
-        marginVertical: 15,
         backgroundColor: '#000',
     },
 

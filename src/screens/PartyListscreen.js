@@ -1,21 +1,44 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { Text, Image, StyleSheet, View } from 'react-native';
+import { ButtonGroup } from 'react-native-elements';
+import PartyComponent from '../components/PartyComponent';
 
-const PartyListscreen =  () => {
-    return (
+
+export default class PartyListscreen extends Component {
+    state = {
+      index: 0
+    }
+    
+    updateIndex = (index) => {
+      this.setState({index})
+    }
+    
+    render() {
+      return (
         <View style={styles.container}>
-            <Text>Party Listing Here</Text>
+        <ButtonGroup
+          selectedBackgroundColor="pink"
+          onPress={this.updateIndex}
+          selectedIndex={this.state.index}
+          buttons={['Explore', 'Popular', 'Favourites']}
+          conta
+          inerStyle={{height: 30}} />
+
+          <PartyComponent></PartyComponent>
+          
         </View>
-    )
-}
+      );
+    }
+  }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        backgroundColor: '#fff',
-        alignItems: 'center',
-        justifyContent: 'center',
+      
     },
+
+    ptyComponent: {
+        paddingBottom: 50
+    }
 });
 
-export default PartyListscreen;
+//export default PartyListscreen;
