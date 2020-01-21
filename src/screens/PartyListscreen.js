@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Text, Image, StyleSheet, View } from 'react-native';
+import { Text, Image, StyleSheet, View, ScrollView } from 'react-native';
 import { ButtonGroup } from 'react-native-elements';
 import PartyComponent from '../components/PartyComponent';
 
@@ -23,8 +23,20 @@ export default class PartyListscreen extends Component {
           buttons={['Explore', 'Popular', 'Favourites']}
           conta
           inerStyle={{height: 30}} />
+        
+        <ScrollView>
 
-          <PartyComponent></PartyComponent>
+        <PartyComponent></PartyComponent>
+        <PartyComponent></PartyComponent>
+        <PartyComponent></PartyComponent>
+        <PartyComponent></PartyComponent>
+        <PartyComponent></PartyComponent>
+        <PartyComponent></PartyComponent>
+        <PartyComponent></PartyComponent>
+
+        </ScrollView>
+
+        
           
         </View>
       );
