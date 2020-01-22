@@ -48,6 +48,7 @@ const SearchPartyStack = createStackNavigator({
 
 
 
+
 const TabNavigator = createBottomTabNavigator(
   {
     PartyList : {
