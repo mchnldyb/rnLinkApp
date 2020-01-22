@@ -8,6 +8,7 @@ import { Ionicons } from '@expo/vector-icons';
 import NewPartyscreen from './src/screens/NewPartyscreen';
 import Searchscreen from './src/screens/Searchscreen';
 import PartyListscreen from './src/screens/PartyListscreen';
+import MapScreen from './src/screens/Mapscreen';
 
 const App = () => {
   return (
@@ -29,6 +30,7 @@ const styles = StyleSheet.create({
 
 const PartyListStack = createStackNavigator({
     PartyList: PartyListscreen,
+    ViewMap:  MapScreen,
     NewParty: NewPartyscreen,
     SearchParty: Searchscreen,
 });
@@ -36,12 +38,22 @@ const PartyListStack = createStackNavigator({
 
 const NewPartyStack = createStackNavigator({
   NewParty: NewPartyscreen,
+  ViewMap:  MapScreen,
   PartyList: PartyListscreen,
   SearchParty: Searchscreen,
 });
 
+const MapScreenStack = createStackNavigator({
+  ViewMap:  MapScreen,
+  SearchParty: Searchscreen,
+  PartyList: PartyListscreen,
+  NewParty: NewPartyscreen,
+});
+
+
 const SearchPartyStack = createStackNavigator({
   SearchParty: Searchscreen,
+  ViewMap:  MapScreen,
   PartyList: PartyListscreen,
   NewParty: NewPartyscreen,
 });
@@ -55,6 +67,12 @@ const TabNavigator = createBottomTabNavigator(
       screen: PartyListStack,
       navigationOptions: () => ({
         tabBarIcon: ({tintColor}) => (<Ionicons name="ios-list-box" size={32} color={tintColor} />)
+      }),
+    },
+    MapViewMenu : {
+      screen: MapScreenStack,
+      navigationOptions: () => ({
+        tabBarIcon: ({tintColor}) => (<Ionicons name="ios-pin" size={32} color={tintColor} />)
       }),
     },
     NewParty : {
