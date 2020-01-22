@@ -1,10 +1,11 @@
 import React, {Component} from 'react';
-import { Text, Image, StyleSheet, View, ScrollView } from 'react-native';
+import { Text, Button, Image, StyleSheet, View, ScrollView } from 'react-native';
 import { ButtonGroup } from 'react-native-elements';
 import PartyComponent from '../components/PartyComponent';
+import { withNavigation } from 'react-navigation';
 
 
-export default class PartyListscreen extends Component {
+class PartyListscreen extends Component {
     state = {
       index: 0
     }
@@ -17,22 +18,21 @@ export default class PartyListscreen extends Component {
       return (
         <View style={styles.container}>
         <ButtonGroup
-          selectedBackgroundColor="pink"
           onPress={this.updateIndex}
           selectedIndex={this.state.index}
           buttons={['Explore', 'Popular', 'Favourites']}
           conta
           inerStyle={{height: 30}} />
-        
+          
         <ScrollView>
 
-        <PartyComponent></PartyComponent>
-        <PartyComponent></PartyComponent>
-        <PartyComponent></PartyComponent>
-        <PartyComponent></PartyComponent>
-        <PartyComponent></PartyComponent>
-        <PartyComponent></PartyComponent>
-        <PartyComponent></PartyComponent>
+            <PartyComponent></PartyComponent>
+            <PartyComponent></PartyComponent>
+            <PartyComponent></PartyComponent>
+            <PartyComponent></PartyComponent>
+            <PartyComponent></PartyComponent>
+            <PartyComponent></PartyComponent>
+            <PartyComponent></PartyComponent>
 
         </ScrollView>
 
@@ -53,4 +53,4 @@ const styles = StyleSheet.create({
     }
 });
 
-//export default PartyListscreen;
+export default PartyListscreen;

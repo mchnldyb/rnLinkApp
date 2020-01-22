@@ -1,18 +1,19 @@
 import React,  {Component} from 'react';
 import {Text,Image,View,StyleSheet,TouchableOpacity} from 'react-native';
+import { withNavigation } from 'react-navigation';
 import { Button } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 
 class PartyComponent extends Component{
-    
+
     onPress = () =>{
-        console.log("Clicked");
+        //this.props.navigation.navigate('ViewPartyDetails', {details: 'Test'});
     }
 
     render(){
-
+        
         return (
-            <TouchableOpacity onPress={this.onPress}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewPartyDetails')}>
                 <View style={styles.container}>
                     <View style={styles.partyDetailsSection}>
                         <View style={styles.dateSection}>
@@ -21,7 +22,7 @@ class PartyComponent extends Component{
                         </View>
 
                         <View style={styles.titleAddressSection}>
-                            <Text style={styles.evntTitle}>Umoja African Festival 2020 </Text>
+                            <Text style={styles.evntTitle}>Umoja African Festival 2020</Text>
                             <Text style={styles.eventAddress}>Address of Event</Text>
                         </View>
 
@@ -86,4 +87,4 @@ const styles = StyleSheet.create({
     
 });
 
-export default PartyComponent;
+export default withNavigation(PartyComponent);

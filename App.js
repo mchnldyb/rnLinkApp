@@ -9,6 +9,7 @@ import NewPartyscreen from './src/screens/NewPartyscreen';
 import Searchscreen from './src/screens/Searchscreen';
 import PartyListscreen from './src/screens/PartyListscreen';
 import MapScreen from './src/screens/Mapscreen';
+import PartyDetails from './src/screens/PartyDetailsscreen';
 
 const App = () => {
   return (
@@ -31,6 +32,7 @@ const styles = StyleSheet.create({
 const PartyListStack = createStackNavigator({
     PartyList: PartyListscreen,
     ViewMap:  MapScreen,
+    ViewPartyDetails : PartyDetails,
     NewParty: NewPartyscreen,
     SearchParty: Searchscreen,
 });
@@ -39,6 +41,7 @@ const PartyListStack = createStackNavigator({
 const NewPartyStack = createStackNavigator({
   NewParty: NewPartyscreen,
   ViewMap:  MapScreen,
+  ViewPartyDetails : PartyDetails,
   PartyList: PartyListscreen,
   SearchParty: Searchscreen,
 });
@@ -46,14 +49,15 @@ const NewPartyStack = createStackNavigator({
 const MapScreenStack = createStackNavigator({
   ViewMap:  MapScreen,
   SearchParty: Searchscreen,
+  ViewPartyDetails : PartyDetails,
   PartyList: PartyListscreen,
   NewParty: NewPartyscreen,
 });
 
-
 const SearchPartyStack = createStackNavigator({
   SearchParty: Searchscreen,
   ViewMap:  MapScreen,
+  ViewPartyDetails : PartyDetails,
   PartyList: PartyListscreen,
   NewParty: NewPartyscreen,
 });
