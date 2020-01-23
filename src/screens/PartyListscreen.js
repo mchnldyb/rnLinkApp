@@ -23,7 +23,7 @@ class PartyListscreen extends Component {
           buttons={['Explore', 'Popular', 'Favourites']}
           conta
           inerStyle={{height: 30}} />
-          
+
         <ScrollView>
 
             <PartyComponent></PartyComponent>
@@ -45,7 +45,7 @@ class PartyListscreen extends Component {
 
 const styles = StyleSheet.create({
     container: {
-      
+        backgroundColor: '#fff',
     },
 
     ptyComponent: {
