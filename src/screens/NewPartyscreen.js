@@ -1,97 +1,71 @@
 import React, {Component} from 'react';
-import { Text, ScrollView, Picker, DatePickerIOS, TextInput, Image, StyleSheet, View, TouchableHighlight } from 'react-native';
-import { Input, Button, CheckBox } from 'react-native-elements';
-import MultiSelect from 'react-native-multiple-select';
+import { Text, ScrollView, StyleSheet, View, TouchableHighlight } from 'react-native';
+import t from 'tcomb-form-native';
+import { Button } from 'react-native-elements';
+
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const eventCategories = [{
-    id: 1,
-    name: 'BYOB'
-  }, {
-    id: 2,
-    name: 'House Party'
-  }, {
-    id: 3,
-    name: 'Paid Event'
-  }, {
-    id: 4,
-    name: 'BYOW'
-  }, {
-    id: 5,
-    name: 'Kick Back'
-  }
-];
+const Form = t.form.Form;
 
+const Address = t.struct({
+    street: t.String,
+    city: t.String,
+    zip: t.Number,
+})
+
+const Event = t.struct({
+    name: t.String,
+    description: t.String,
+    address: Address,
+    date: t.Date,
+    
+  });
+
+  const options = {
+      fields: {
+          name: {
+              placeholder: 'Name of Event',
+              label: "Event Name",
+          },
+          description: {
+              placeholder: 'Event Description or party rules here',
+              multiline: true,
+              numberOfLines: 10
+          },
+          address: {
+              placeholder: 'Street, City, Zip',
+
+          },
+          date: {
+              mode: 'datetime',
+          },
+
+      }
+  };
 
 class NewPartyscreen extends Component{
 
-    state = {
-        selectedItems : [],
-      };
-    
-      
-      onSelectedItemsChange = selectedItems => {
-        this.setState({ selectedItems });
-      };
+    onPress = () =>{
+        const value = this.refs.form.getValue();
+        if(value){
+            console.log(value);
+        }
+    }
 
     render(){
-        const { selectedItems } = this.state;
         return (
             <ScrollView>
                 <View style={styles.container}>
-               
-                <View style={{backgroundColor: '#fff'}}>
-                    <Input
-                        placeholder='Title goes here'
-                        label="Title of Event"
-                        containerStyle={styles.inputContainerPad}
-                    />
-
-                    <Input
-                        placeholder='Description goes here'
-                        label="Event Description"
-                        multiline
-                        containerStyle={styles.inputContainerPad}
+                    <Form 
+                        ref="form"
+                        type={Event} 
+                        options={options}   
                     />
                 </View>
-
-                <View style={{backgroundColor: '#fff', marginTop: 25}}>
-                    <Input 
-                        placeholder="Select event Date"
-                        containerStyle={styles.inputContainerPad}
-                        label="Date & Time"  />
-
-
-                    <Input 
-                        placeholder="Street, City, Zip"
-                        containerStyle={styles.inputContainerPad}
-                        label="Location"  />
-                </View>
-
-                <View style={{backgroundColor: '#fff', marginTop: 25 }}>
-                    <MultiSelect
-                        hideTags
-                        items={eventCategories}
-                        uniqueKey="id"
-                        ref={(component) => { this.multiSelect = component }}
-                        onSelectedItemsChange={this.onSelectedItemsChange}
-                        selectedItems={selectedItems}
-                        selectText="Select Categories"
-                        searchInputPlaceholderText="Search Items..."
-                        onChangeInput={ (text)=> console.log(text)}
-                        itemTextColor="#000"
-                        displayKey="name"
-                        searchInputStyle={{ color: '#CCC' }}
-                        submitButtonColor="#48BBEC"
-                        submitButtonText="Add Categories"
-                        
-                    />
-                    <View>
-                    {this.multiSelect && this.multiSelect.getSelectedItemsExt(selectedItems)}
-                    </View>
-                </View>
-                <Button style={{marginTop: 15}} title="Create Event"/>
-               </View>
+                <Button style={styles.container}
+                    title="Create Event"
+                    onPress={this.onPress}
+                />
             </ScrollView>
         )
     }
