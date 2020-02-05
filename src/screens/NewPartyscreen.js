@@ -1,45 +1,149 @@
 import React, {Component} from 'react';
-import { Text, ScrollView, StyleSheet, View, TouchableHighlight } from 'react-native';
+import { ScrollView, StyleSheet, View } from 'react-native';
 import t from 'tcomb-form-native';
 import { Button } from 'react-native-elements';
-
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+//STYLE CONSTS
+const LABEL_COLOR = "#000000";
+const INPUT_COLOR = "#000000";
+const ERROR_COLOR = "#a94442";
+const HELP_COLOR = "#999999";
+const BORDER_COLOR = "#cccccc";
+const DISABLED_COLOR = "#777777";
+const DISABLED_BACKGROUND_COLOR = "#eeeeee";
+const FONT_SIZE = 17;
+const FONT_WEIGHT = "500";
+
 const Form = t.form.Form;
+
+const formStyles = {
+    ...Form.stylesheet,
+    fieldset: {
+        backgroundColor: '#fff',
+        padding: 5,
+        marginVertical: 20
+    },
+    formGroup: {
+      normal: {
+        padding: 7,
+        marginTop: 0,
+        backgroundColor: '#fff',
+      },
+      error:{
+          marginBottom: 10,
+          padding: 7,
+          marginTop: 0,
+          backgroundColor: '#fff',
+      }
+    },
+    controlLabel: {
+      normal: {
+        color: LABEL_COLOR,
+        fontSize: 18,
+        marginBottom: 7,
+        fontWeight: '600'
+      },
+      // the style applied when a validation error occours
+      error: {
+        color: 'red',
+        fontSize: 18,
+        marginBottom: 7,
+        fontWeight: '600'
+      }
+    },
+    textbox: {
+        normal: {
+          color: INPUT_COLOR,
+          fontSize: FONT_SIZE,
+          height: 50,
+          paddingVertical: Platform.OS === "ios" ? 7 : 0,
+          paddingHorizontal: 0,
+          borderRadius: 0,
+          borderBottomWidth: 1,
+          borderColor: BORDER_COLOR,
+          borderWidth: 0,
+          marginBottom: 5,
+        },
+        // the style applied when a validation error occours
+        error: {
+          color: INPUT_COLOR,
+          fontSize: FONT_SIZE,
+          height: 36,
+          paddingVertical: Platform.OS === "ios" ? 7 : 0,
+          paddingHorizontal: 7,
+          borderRadius: 0,
+          borderBottomWidth: 1,
+          borderColor: ERROR_COLOR,
+          borderWidth: 0,
+          marginBottom: 5
+        },
+        // the style applied when the textbox is not editable
+        notEditable: {
+          fontSize: FONT_SIZE,
+          height: 36,
+          paddingVertical: Platform.OS === "ios" ? 7 : 0,
+          paddingHorizontal: 7,
+          borderRadius: 4,
+          borderColor: BORDER_COLOR,
+          borderWidth: 1,
+          marginBottom: 5,
+          color: DISABLED_COLOR,
+          backgroundColor: DISABLED_BACKGROUND_COLOR
+        }
+      },
+    
+  }
 
 const Address = t.struct({
     street: t.String,
     city: t.String,
+    state: t.String,
     zip: t.Number,
-})
+});
+
 
 const Event = t.struct({
     name: t.String,
-    description: t.String,
+    description: t.maybe(t.String),
     address: Address,
-    date: t.Date,
-    
-  });
+    date: t.Date,    
+});
 
   const options = {
       fields: {
           name: {
+              stylesheet: formStyles,
               placeholder: 'Name of Event',
               label: "Event Name",
           },
           description: {
-              placeholder: 'Event Description or party rules here',
+              stylesheet: formStyles,
+              placeholder: 'Description, rules, etc.',
               multiline: true,
               numberOfLines: 10
           },
-          address: {
-              placeholder: 'Street, City, Zip',
-
-          },
           date: {
+              stylesheet: formStyles,
               mode: 'datetime',
           },
-
+          address: {
+              stylesheet: formStyles,
+              fields : {
+                  street: {
+                      placeholder: 'Street Address'
+                  },
+                  city: {
+                      placeholder: 'City'
+                  },
+                  state: {
+                    placeholder: 'State'
+                  },
+                  zip: {
+                      placeholder: 'Zip'
+                  }
+              }
+          }
       }
   };
 
@@ -58,7 +162,7 @@ class NewPartyscreen extends Component{
                 <View style={styles.container}>
                     <Form 
                         ref="form"
-                        type={Event} 
+                        type={Event}
                         options={options}   
                     />
                 </View>
@@ -78,29 +182,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
         marginVertical: 5,
         
-    },
-    textAreaStyle:{
-        
-    },  
-    inputContainerPad: {
-        padding: 15
-    },  
-    button: {
-        height: 36,
-        backgroundColor: '#48BBEC',
-        borderColor: '#48BBEC',
-        borderWidth: 1,
-        borderRadius: 8,
-        marginBottom: 10,
-        alignSelf: 'stretch',
-        justifyContent: 'center'
-
-    },
-    buttonText: {
-        fontSize: 18,
-        color: 'white',
-        alignSelf: 'center'
-    },
+    }, 
 });
 
 export default NewPartyscreen;
