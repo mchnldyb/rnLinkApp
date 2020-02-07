@@ -1,0 +1,10 @@
+type Event @model {
+  id: ID!
+  name: String!
+  description: String
+  street: String
+  city: String
+  state: String
+  zip:  String
+  datetime:  String
+}

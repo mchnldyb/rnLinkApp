@@ -10,8 +10,9 @@ class PartyComponent extends Component{
         //this.props.navigation.navigate('ViewPartyDetails', {details: 'Test'});
     }
 
-    render(){
-        
+    
+
+    render(){                
         return (
             <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewPartyDetails')}>
                 <View style={styles.container}>
@@ -22,8 +23,8 @@ class PartyComponent extends Component{
                         </View>
 
                         <View style={styles.titleAddressSection}>
-                            <Text style={styles.evntTitle}>Umoja African Festival 2020</Text>
-                            <Text style={styles.eventAddress}>Address of Event</Text>
+                            <Text style={styles.evntTitle}>{this.props.party.name}</Text>
+                            <Text style={styles.eventAddress}>{this.props.party.street}</Text>
                         </View>
 
                         <View>

@@ -4,6 +4,10 @@ import t from 'tcomb-form-native';
 import { Button } from 'react-native-elements';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+import { API, graphqlOperation } from 'aws-amplify';
+import { listEvents as ListEvents } from './../graphql/queries';
+import { createEvent as CreateEvent } from './../graphql/mutations';
+
 //STYLE CONSTS
 const LABEL_COLOR = "#000000";
 const INPUT_COLOR = "#000000";
@@ -95,19 +99,15 @@ const formStyles = {
     
   }
 
-const Address = t.struct({
-    street: t.String,
-    city: t.String,
-    state: t.String,
-    zip: t.Number,
-});
-
 
 const Event = t.struct({
     name: t.String,
     description: t.maybe(t.String),
-    address: Address,
-    date: t.Date,    
+    street: t.maybe(t.String),
+    city: t.maybe(t.String),
+    state: t.maybe(t.String),
+    zip: t.maybe(t.Number),
+    datetime: t.maybe(t.Date),    
 });
 
   const options = {
@@ -126,34 +126,49 @@ const Event = t.struct({
           date: {
               stylesheet: formStyles,
               mode: 'datetime',
-          },
-          address: {
-              stylesheet: formStyles,
-              fields : {
-                  street: {
-                      placeholder: 'Street Address'
-                  },
-                  city: {
-                      placeholder: 'City'
-                  },
-                  state: {
-                    placeholder: 'State'
-                  },
-                  zip: {
-                      placeholder: 'Zip'
-                  }
-              }
-          }
+            },
+        street: {
+            placeholder:  'Street Address'
+        },
+        city: {
+            placeholder:  'City'
+        }
       }
   };
 
 class NewPartyscreen extends Component{
 
+    state = { anEvent: null };
+
+
+    // async componentDidMount(){
+    //     try {
+            
+    //     } catch (err) {
+            
+    //     }
+    // }
+
+    // onChange = (key, value) => {
+    //     this.setState({ [key] : value})
+    // }
+
+    // createEvent = async event => {
+    //     const _event = JSON.parse(JSON.stringify(this.refs.form.getValue()));
+    //     event.preventDefault();
+    //     const result = await API.graphql(graphqlOperation(CreateEvent, {input: _event}));
+    //     alert("Event Created Successfully");
+        
+    //     console.log(result);
+    // }
+
     onPress = () =>{
         const value = this.refs.form.getValue();
         if(value){
-            console.log(value);
+            //console.log(value);
+            this.setState({anEvent: value});
         }
+        console.log(this.state.anEvent);
     }
 
     render(){

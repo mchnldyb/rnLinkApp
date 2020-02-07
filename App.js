@@ -1,5 +1,12 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+
+import Amplify, { Auth } from 'aws-amplify';
+import awsconfig from './aws-exports';
+Amplify.configure(awsconfig);
+
+import { withAuthenticator } from 'aws-amplify-react-native';
+
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
@@ -11,6 +18,8 @@ import PartyListscreen from './src/screens/PartyListscreen';
 import MapScreen from './src/screens/Mapscreen';
 import PartyDetails from './src/screens/PartyDetailsscreen';
 
+
+
 const App = () => {
   return (
     <View style={styles.container}>
@@ -18,6 +27,8 @@ const App = () => {
     </View>
   );
 }
+
+
 
 const styles = StyleSheet.create({
   container: {
@@ -105,6 +116,7 @@ const TabNavigator = createBottomTabNavigator(
   }
 );
 
-export default createAppContainer(TabNavigator);;
+//export default createAppContainer(TabNavigator);
+export default withAuthenticator(createAppContainer(TabNavigator), { includeGreetings: false });
 //createAppContainer(TabNavigator);
 
