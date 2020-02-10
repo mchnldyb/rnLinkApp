@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import { ScrollView, StyleSheet, View } from 'react-native';
+import { ScrollView, StyleSheet, View,Image,TouchableOpacity } from 'react-native';
 import t from 'tcomb-form-native';
 import { Button } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/FontAwesome';
+
 
 import { API, graphqlOperation } from 'aws-amplify';
-import { listEvents as ListEvents } from './../graphql/queries';
 import { createEvent as CreateEvent } from './../graphql/mutations';
+
 
 //STYLE CONSTS
 const LABEL_COLOR = "#000000";
@@ -103,11 +103,11 @@ const formStyles = {
 const Event = t.struct({
     name: t.String,
     description: t.maybe(t.String),
-    street: t.maybe(t.String),
-    city: t.maybe(t.String),
-    state: t.maybe(t.String),
-    zip: t.maybe(t.Number),
-    datetime: t.maybe(t.Date),    
+    street: t.String,
+    city: t.String,
+    state: t.String,
+    zip: t.Number,
+    datetime: t.Date,    
 });
 
   const options = {
@@ -123,22 +123,42 @@ const Event = t.struct({
               multiline: true,
               numberOfLines: 10
           },
-          date: {
+          datetime: {
               stylesheet: formStyles,
               mode: 'datetime',
             },
         street: {
-            placeholder:  'Street Address'
+            placeholder:  'Street Address',
+            stylesheet: formStyles,
         },
         city: {
-            placeholder:  'City'
+            placeholder:  'City',
+            stylesheet: formStyles,
+        },
+        zip:{
+            placeholder: 'Zip Code',
+            stylesheet: formStyles,
+        },
+        state: {
+            placeholder: 'State',
+            stylesheet: formStyles,
         }
+        
       }
   };
 
 class NewPartyscreen extends Component{
 
-    state = { anEvent: null };
+    state = { anEvent: {
+                    name: '',
+                    description: '',
+                    street: '',
+                    city: '',
+                    state: '',
+                    zip: '',
+                    datetime: ''
+                    } 
+            };
 
 
     // async componentDidMount(){
@@ -153,39 +173,59 @@ class NewPartyscreen extends Component{
     //     this.setState({ [key] : value})
     // }
 
-    // createEvent = async event => {
-    //     const _event = JSON.parse(JSON.stringify(this.refs.form.getValue()));
-    //     event.preventDefault();
-    //     const result = await API.graphql(graphqlOperation(CreateEvent, {input: _event}));
-    //     alert("Event Created Successfully");
+    createEvent = async event => {
+        const _event = this.state.anEvent;
+        event.preventDefault();
+        //console.log(this.state.anEvent);
+        //this.setState({anEvent: null});
+        const result = await API.graphql(graphqlOperation(CreateEvent, {input: _event}));
+        alert("Event Created Successfully");
+        this.setState({anEvent: null});
         
-    //     console.log(result);
-    // }
+        console.log(result);
+    }
 
-    onPress = () =>{
+    //Flow
+    //Onchange, set state var. Then finally on submit button press, push it to cloud
+
+    onChange = (value) => {
+        //console.log(value);
+        this.setState({anEvent: value});
+    }
+
+    onPress = async event => {
         const value = this.refs.form.getValue();
-        if(value){
-            //console.log(value);
-            this.setState({anEvent: value});
+        event.preventDefault();
+        if (value) {
+            // console.log(this.state.anEvent);
+            const result =  await API.graphql(graphqlOperation(CreateEvent, {input: this.state.anEvent }));
+            console.log(result);
+            alert("Event Created");
+            this.setState({anEvent: null });
         }
-        console.log(this.state.anEvent);
+        
+        //this.setState({anEvent: value});
+        // if(value){
+        //     //console.log(value);
+        //     this.setState({anEvent: value});
+        // }
+        //console.log(this.state.anEvent);
     }
 
     render(){
         return (
-            <ScrollView>
                 <View style={styles.container}>
-                    <Form 
-                        ref="form"
-                        type={Event}
-                        options={options}   
-                    />
+                    <ScrollView indicatorStyle="white">
+                        <Form 
+                            ref="form"
+                            type={Event}
+                            value={this.state.anEvent}
+                            onChange={this.onChange}
+                            options={options}   
+                        />
+                    </ScrollView>
+                    <Button title="Create Event" onPress={this.onPress}></Button>
                 </View>
-                <Button style={styles.container}
-                    title="Create Event"
-                    onPress={this.onPress}
-                />
-            </ScrollView>
         )
     }
 }
@@ -197,7 +237,21 @@ const styles = StyleSheet.create({
         marginHorizontal: 10,
         marginVertical: 5,
         
-    }, 
+    },
+    TouchableOpacityContainerStyle:{
+        position: 'absolute',
+        width: 50,
+        height: 50,
+        alignItems: 'center',
+        justifyContent: 'center',
+        right: 30,
+        bottom: 30,
+    },
+    addEventImageStyle: {
+        resizeMode: 'contain',
+        width: 80,
+        height: 80,
+    },
 });
 
 export default NewPartyscreen;

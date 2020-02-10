@@ -46,11 +46,11 @@ class PartyListscreen extends Component {
         <ButtonGroup
           onPress={this.updateIndex}
           selectedIndex={this.state.index}
-          buttons={['Explore', 'Popular', 'Favourites']}
+          buttons={['Explore', 'My Events', 'Favourites']}
           conta
           inerStyle={{height: 30}} />
 
-        <ScrollView style={styles.scrollViewSize}
+        <ScrollView
           refreshControl={
             <RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh}/>
             }>
@@ -71,10 +71,7 @@ class PartyListscreen extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
-    },
-
-    scrollViewSize: {
-      height: Dimensions.get('window').height,
+        flex: 1
     },
     ptyComponent: {
         paddingBottom: 50

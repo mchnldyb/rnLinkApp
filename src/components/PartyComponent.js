@@ -1,25 +1,24 @@
 import React,  {Component} from 'react';
 import {Text,Image,View,StyleSheet,TouchableOpacity} from 'react-native';
 import { withNavigation } from 'react-navigation';
+import moment from 'moment';
 import { Button } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 
 class PartyComponent extends Component{
 
-    onPress = () =>{
-        //this.props.navigation.navigate('ViewPartyDetails', {details: 'Test'});
-    }
 
-    
+    render(){
 
-    render(){                
+        const mDate = moment(this.props.party.datetime);              ;
+        
         return (
             <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewPartyDetails')}>
                 <View style={styles.container}>
                     <View style={styles.partyDetailsSection}>
                         <View style={styles.dateSection}>
-                            <Text style={styles.dateDay}>20</Text>
-                            <Text style={styles.dateMonth}>MAR</Text>    
+                            <Text style={styles.dateDay}>{mDate.format('D')}</Text>
+                            <Text style={styles.dateMonth}>{mDate.format('MMM')}</Text>    
                         </View>
 
                         <View style={styles.titleAddressSection}>
@@ -28,7 +27,7 @@ class PartyComponent extends Component{
                         </View>
 
                         <View>
-                            <Text style={styles.eventTime}>6:10PM</Text>
+                            <Text style={styles.eventTime}>{mDate.format('LT')}</Text>
                         </View>
                         
                     </View>
