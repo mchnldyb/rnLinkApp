@@ -7,64 +7,69 @@ import { API, graphqlOperation } from 'aws-amplify';
 import { listEvents as ListEvents } from './../graphql/queries';
 
 class PartyListscreen extends Component {
-    state = {
+  
+  constructor(){
+    super()
+    this.state = {
       index: 0,
       events: [],
       refreshing: false,
     }
-    
-    updateIndex = (index) => {
-      this.setState({index})
+  }
+
+    updateIndex = (newindex) => {
+      this.setState({index: newindex})
+      console.log(this.state.index);
     }
 
-    async componentDidMount(){
+    //Fetch Data from server
+    getData = async() => {
       try {
         const eventslist = await API.graphql(graphqlOperation(ListEvents));
         this.setState({events: eventslist.data.listEvents.items});
-        //console.log("Events: ", eventslist);
-
       } catch (error) {
-        console.log("Error: ", error);
+        console.log(error);
       }
     }
 
-    _onRefresh = async() => {
+    //On Mount, try to get data and save in state
+    componentDidMount(){
+      //Uncomment before pushing to prodiction
+      //Just to limit number of api calls during development
+      //Might increase interval
+      //setInterval(()=>{ this.getData(); }, 1000);
+
+      this.getData();
+    }
+
+    _onRefresh = () => {
       this.setState({refreshing: true});
-      try {
-        const eventslist = await API.graphql(graphqlOperation(ListEvents));
-        this.setState({events: eventslist.data.listEvents.items});
-        this.setState({refreshing: false});
-      } catch (error) {
-        console.log("Error: ", error);
-      }
+      this.getData();
+      this.setState({refreshing: false});
     }
 
     render() {
-      return (
-        
-        <View style={styles.container}>
-        <ButtonGroup
-          onPress={this.updateIndex}
-          selectedIndex={this.state.index}
-          buttons={['Explore', 'My Events', 'Favourites']}
-          conta
-          inerStyle={{height: 30}} />
+     return (
+      <View style={styles.container}>
+      <ButtonGroup
+        onPress={this.updateIndex}
+        selectedIndex={this.state.index}
+        buttons={['Explore', 'My Events', 'Favourites']}
+        conta
+        inerStyle={{height: 30}} />
 
-        <ScrollView
-          refreshControl={
-            <RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh}/>
-            }>
+      <ScrollView
+        refreshControl={
+          <RefreshControl refreshing={this.state.refreshing} onRefresh={this._onRefresh}/>
+          }>
 
-            {this.state.events.map((event,index)=>(
-              <PartyComponent party={event}></PartyComponent>
-            ))}
+          {this.state.events.map((event,index)=>(
+            <PartyComponent party={event} key={index}></PartyComponent>
+          ))}
 
-        </ScrollView>
-
-        
-          
-        </View>
-      );
+      </ScrollView>
+      </View>
+     )
     }
   }
 
