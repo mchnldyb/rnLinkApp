@@ -1,17 +1,23 @@
-import React from 'react';
+//React Native Components and UI Elements
+import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
-import Amplify, { Auth } from 'aws-amplify';
+//AWS Amplify Configuration
+import Amplify, { Auth, I18n } from 'aws-amplify';
 import awsconfig from './aws-exports';
 Amplify.configure(awsconfig);
 
+//aws imports for Auth Components
 import { withAuthenticator } from 'aws-amplify-react-native';
+import {CustomAuthTheme} from './src/themes/CustomAuthTheme';
 
+//Navigator and Icons
 import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
 import { Ionicons } from '@expo/vector-icons';
 
+//Custom Components 
 import NewPartyscreen from './src/screens/NewPartyscreen';
 import Searchscreen from './src/screens/Searchscreen';
 import PartyListscreen from './src/screens/PartyListscreen';
@@ -20,20 +26,51 @@ import PartyDetails from './src/screens/PartyDetailsscreen';
 
 
 
-const App = () => {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
-  );
+// const App = () => {
+//   return (
+//     <View style={styles.container}>
+//       <Text>Open up App.js to start working on your app!</Text>
+//     </View>
+//   );
+// }
+
+//const Tab = createBottomTabNavigator();
+
+
+// class App extends Component{
+//   render(){
+//     return(
+//       <View style={styles.container}>
+//         <Text>Test</Text>
+//         </View>      
+//     )
+//   }
+// }
+
+//Configuration for on Screen Auth Labels
+const authScreenLabels = {
+  en: {
+    'Sign In' : 'Log In',
+    'Sign Up' : 'Create Account',
+    'Forgot Password' : 'Forgot Password',
+    'Sign in to your account' : ' LogIn to LinkApp',
+    'Back to Sign In' :  'Return to Log In',
+    'Confirm a Code': 'Confirm Token',
+
+    'Enter your username' : 'Username',
+    'Enter your password' : 'Password',
+  }
 }
+
+I18n.setLanguage('en');
+I18n.putVocabularies(authScreenLabels);
 
 
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -116,7 +153,10 @@ const TabNavigator = createBottomTabNavigator(
   }
 );
 
+
+
 //export default createAppContainer(TabNavigator);
-export default withAuthenticator(createAppContainer(TabNavigator), { includeGreetings: false });
-//createAppContainer(TabNavigator);
+//export default withAuthenticator(createAppContainer(TabNavigator), { includeGreetings: true }, [<CustomSignIn/>]);
+export default withAuthenticator(createAppContainer(TabNavigator),false, [], null, CustomAuthTheme);
+//export default App;
 
