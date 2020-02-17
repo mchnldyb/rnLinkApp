@@ -11,9 +11,9 @@ class PartyComponent extends Component{
     render(){
 
         const mDate = moment(this.props.party.datetime);              ;
-        
+
         return (
-            <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewPartyDetails')}>
+            <TouchableOpacity onPress={() => this.props.navigation.navigate('ViewPartyDetails', this.props.party)}>
                 <View style={styles.container}>
                     <View style={styles.partyDetailsSection}>
                         <View style={styles.dateSection}>

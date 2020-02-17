@@ -6,6 +6,7 @@ import { withNavigation } from 'react-navigation';
 import { API, graphqlOperation } from 'aws-amplify';
 import { listEvents as ListEvents } from './../graphql/queries';
 
+
 class PartyListscreen extends Component {
   
   constructor(){
@@ -38,7 +39,7 @@ class PartyListscreen extends Component {
       //Just to limit number of api calls during development
       //Might increase interval
       //setInterval(()=>{ this.getData(); }, 1000);
-
+      console.log('User can be created here');
       this.getData();
     }
 
