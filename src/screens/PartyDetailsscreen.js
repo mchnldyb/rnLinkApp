@@ -1,19 +1,38 @@
 import React, {Component} from 'react';
 import { Text, Image, StyleSheet, View, ScrollView,Dimensions,TouchableOpacity, Platform } from 'react-native';
 import MapView from 'react-native-maps';
+import { Icon } from 'react-native-elements';
+import moment from 'moment';
 
 class PartyDetailsscreen extends Component{
     
+    state = {
+        isFavorite : false
+    }
+
+    bookmarkEvent = () => {
+        this.setState({isFavorite : !this.state.isFavorite});
+    }
+
+    editEvent = () => {
+        console.log('Edit Event Here');
+    }
+
+    deleteEvent = () => {
+        console.log('Delete Event Here');
+    }
+
     render(){
 
         const _event = this.props.navigation.state.params;
-        //console.log();
+        //const _date = moment(this.props.navigation.state.params.datetime);          
+        const _iconSize = 18;
 
         return(
             <View style={styles.container}>
                 <MapView onPress={e => this.props.navigation.navigate('ViewMap')} style={styles.mapStyle} showsUserLocation></MapView>
                 <ScrollView>
-                    <View style={styles.section}><Text>Social Icons</Text></View>
+                    
                     <View style={styles.section}>
                         <Text style={styles.sectionTitle}>Title</Text>
                         <Text style={styles.sectionContent}>{_event.name}</Text>
@@ -28,7 +47,30 @@ class PartyDetailsscreen extends Component{
                     </View>
                     <View style={styles.section}>
                         <Text style={styles.sectionTitle}>Date/Time</Text>
-                        <Text>{_event.datetime}</Text>
+                        <Text>{moment(_event.datetime).format('LLLL')}</Text>
+                    </View>
+
+                    <View style={styles.iconsection}>
+                        <Icon
+                        raised
+                        name='bookmark'
+                        size={_iconSize}
+                        onPress={this.bookmarkEvent}
+                        color={this.state.isFavorite ? '#00aced': '#CCC'}/>
+
+                        <Icon
+                        raised
+                        name='edit'
+                        onPress={this.editEvent}
+                        size={_iconSize}
+                        color='#00aced'/>
+
+                        <Icon
+                        raised
+                        name='delete'
+                        size={_iconSize}
+                        onPress={this.deleteEvent}
+                        color='#FF0000'/>
                     </View>
                 </ScrollView>
             </View>
@@ -43,9 +85,19 @@ const styles = StyleSheet.create({
     mapStyle: {
         width: Dimensions.get('window').width,
         marginBottom: 15,
-        height: '35%',
+        height: '30%',
         borderWidth: 1,
         borderColor: '#DCDCDC',
+    },
+    iconsection: {
+        padding: 10,
+        borderWidth: 1,
+        borderColor: '#FFF',
+        marginBottom: 15,
+        marginHorizontal: 10,
+        backgroundColor: '#FFF',
+        flexDirection: "row",
+        justifyContent: "space-around",
     },
     section:{
         padding: 10,

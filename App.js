@@ -16,6 +16,7 @@ import { createAppContainer } from 'react-navigation';
 import { createBottomTabNavigator } from 'react-navigation-tabs';
 import { createStackNavigator } from 'react-navigation-stack';
 import { Ionicons } from '@expo/vector-icons';
+import { Icon } from 'react-native-elements'
 
 //Custom Components 
 import NewPartyscreen from './src/screens/NewPartyscreen';
@@ -136,7 +137,7 @@ const TabNavigator = createBottomTabNavigator(
     SearchParty: {
       screen: SearchPartyStack,
       navigationOptions: () => ({
-        tabBarIcon: ({tintColor}) => (<Ionicons name="md-search" size={32} color={tintColor} />)
+        tabBarIcon: ({tintColor}) => (<Icon name="settings" size={32} color={tintColor} />)  
       }),
     }
   },

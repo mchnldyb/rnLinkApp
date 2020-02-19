@@ -7,7 +7,7 @@ class MapScreen extends Component {
     render (){
         return (
             <View style={styles.container}>
-                <MapView style={styles.mapStyle} showsUserLocation>
+                <MapView style={styles.mapStyle} showsUserLocation followsUserLocation>
                 </MapView>
             </View>
         )
